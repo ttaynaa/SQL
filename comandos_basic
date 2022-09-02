@@ -1,0 +1,102 @@
+
+
+--- APRENDENDO SQL 
+
+-- dois traços (--) para fazer comentario 
+-- ctrl + s para salvar a query 
+
+-- um banco de dados é composto por varias tabelas 
+
+-- Para selecionar a tabela completa : 
+SELECT * FROM CUSTOMER; -- CUSTOMER  é o nome da tabela 
+
+-- Para selecionar apenas colunas expecificas: 
+SELECT CUSTOMER_ID, NAME FROM CUSTOMER; -- 'CUSTOMER_ID' e 'NAME' são colunas da tabela 'CUSTOMER' n
+
+-- tabela 'PRODUCT' completa:
+SELECT * FROM PRODUCT;
+
+-- USANDO EXPRESSÕES PARA CALCULAR UMA COLUNA 
+-- Suponhamos que quiséssemos gerar uma coluna calculada chamada 'TAXED_PRICE' em que o preço fosse 7% mais alto que na coluna'PRICE'.
+-- é possível usar SELECT para fazer o cálculo dinamicamente para nós.
+
+SELECT 
+ PRODUCT_ID,
+ DESCRIPTION, 
+ PRICE,
+ PRICE * 1.07 AS TAXED_PRICE -- PRICE é multiplicado por 1,07 para o calculo da quantia acrescentada da taxa, observe que a instução AS deu um nome ao valor calculado. 
+ FROM PRODUCT;
+
+-- Aplicando um novo nome a coluna existente dentro da consulta. PRICE vira UNTAXED_PRICE:
+SELECT 
+ PRODUCT_ID,
+ DESCRIPTION, 
+ PRICE AS UNTAXED_PRICE, -- novo nome na tabela 
+ PRICE * 1.07 AS TAXED_PRICE
+ FROM PRODUCT;
+
+--    Atenção: 
+-- No SQL, ao dar um nomepara qualquer coisa use sempre um underscore (_) como placeholder para espaços. caso contrário, causará erros. 
+
+
+-- Arredondar para duas casas decimais:
+-- Para arredondar TAXED_PRICE para duas casas decimais, podemos passar a expressão de multiplicação PRICE *1.07 como o primeiro argumento e 2 como o segundo:
+SELECT
+PRODUCT_ID,
+DESCRIPTION,
+PRICE,
+round(PRICE * 1.07, 2) AS TAXED_PRICE 
+FROM PRODUCT;
+
+
+-- OPERADORES MATEMÁTICOS QUE PODE USAR NO SQL:
+
+-- operador --- Descrição ----------------------------------- Exemplo 
+----- + ------ Soma dois números ------------------------------- STOCK + NEW_SHIPMENT
+----  -  ----- Subtrai dois números ---------------------------- STOCK - DEFECTS 
+----- * ------ Multipplica dois números ------------------------ PRICE * 1.07 
+----- / ------ Divide dois números ----------------------------- STOCK / PALLET_SIZE
+----- % ------- Divide dois números, mas retorna o resto ------- STOCK % PALLET_SIZE 
+
+
+--    O operador de concatenação 
+-- é especificado por um pipe dupo e sem espaço entre eles (||)
+-- A concatenação pega duas colunas e junta em uma só separando por algo que esteja entre dois ||.
+-- exemplo: || ', ' || junta duas colunas e separa os dados por virgula. 
+
+
+SELECT 
+NAME, 
+CITY || ', ' || STATE AS LOCATION -- junta a coluna 'CITY' com a coluna 'STATE' e coloca dentro da coluna 'LOCATION'. dividindo os dados por um virgula 
+FROM CUSTOMER;
+
+
+-- Concatenando vários campos em um único valor SHIP_ADDRES:
+-- junta as colunas em uma só, na seguinte sequencia os dados STREET_ADDRESS, CITY, STATE, ZIP e armazena tudo em SHIP_ADDRESS
+SELECT NAME, 
+STREET_ADDRESS || ' ' || CITY || ', ' || STATE || ' ' || ZIP AS SHIP_ADDRESS
+FROM CUSTOMER; 
+
+
+
+
+
+
+
+-- CRIANDO ESQUELETO DA TABELA:
+
+--CREATE TABLE COMPANY (
+--    COMPANY_ID         INTEGER      PRIMARY KEY AUTOINCREMENT,
+--    NAME               VARCHAR (30) NOT NULL,
+--    DESCRIPTION        VARCHAR (60),
+--    PRIMARY_CONTACT_ID INTEGER      NOT NULL
+--);
+
+
+
+
+
+
+
+
+
